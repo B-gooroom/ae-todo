@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import TodoItem from "./components/TodoItem";
 
 export default function Home() {
-  const [todos, setTodos] = useState([{ text: "", checked: false }]);
+  const [todos, setTodos] = useState([{ text: "", memo: "", checked: false }]);
 
   const handleChange = (
     idx: number,
@@ -12,6 +12,15 @@ export default function Home() {
   ) => {
     const newTodos = [...todos];
     newTodos[idx].text = e.target.value;
+    setTodos(newTodos);
+  };
+
+  const handleMemoChange = (
+    idx: number,
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const newTodos = [...todos];
+    newTodos[idx].memo = e.target.value;
     setTodos(newTodos);
   };
 
@@ -30,7 +39,7 @@ export default function Home() {
       e.preventDefault();
       const value = (e.target as HTMLInputElement).value.trim();
       if (value !== "" && idx === todos.length - 1) {
-        setTodos([...todos, { text: "", checked: false }]);
+        setTodos([...todos, { text: "", memo: "", checked: false }]);
       }
     }
   };
@@ -46,13 +55,16 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <main className="flex flex-col gap-[32px] row-start-2 items-start w-full max-w-md py-14 px-4 ">
+      <main className="flex flex-col gap-[12px] row-start-2 items-start w-full max-w-md py-14 px-4 ">
+        <p className="text-xl font-bold">해낸다.</p>
         <div className="flex flex-col gap-[4px] w-full">
           {todos.map((todo, idx) => (
             <TodoItem
               key={idx}
               value={todo.text}
+              memo={todo.memo}
               onChange={(e) => handleChange(idx, e)}
+              onMemoChange={(e) => handleMemoChange(idx, e)}
               onKeyDown={(e) => handleKeyDown(idx, e)}
               checked={todo.checked}
               onCheck={() => handleCheck(idx)}
