@@ -26,15 +26,12 @@ export const getTodayData = async () => {
 };
 
 export const insertTodo = async (todo: TodoProps) => {
-  console.log("todo", todo);
   const { data, error } = await supabase.from("todos").insert({
     text: todo.text,
     memo: todo.memo,
     tags: todo.tags,
     checked: todo.checked,
   });
-
-  console.log("data", data);
 
   if (error) {
     console.error("Error inserting todo:", error);

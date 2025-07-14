@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import TodoItem from "../components/TodoItem";
 import {
   useDeleteTodos,
@@ -15,78 +15,58 @@ export default function Home() {
   const { mutate: insertTodo } = useInsertTodos();
   const { mutate: updateTodo } = useUpdateTodos();
   const { mutate: deleteTodo } = useDeleteTodos();
-  console.log(todosData);
 
-  const [todos, setTodos] = useState([
-    { text: "", memo: "", checked: false, tags: [] as string[] },
-  ]);
+  const [newTodo, setNewTodo] = useState({
+    text: "",
+    memo: "",
+    checked: false,
+    tags: [] as string[],
+  });
 
-  const handleChange = (
-    idx: number,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newTodos = [...todos];
-    newTodos[idx].text = e.target.value;
-    setTodos(newTodos);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTodo((prev) => ({ ...prev, text: e.target.value }));
   };
 
-  const handleMemoChange = (
-    idx: number,
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const newTodos = [...todos];
-    newTodos[idx].memo = e.target.value;
-    setTodos(newTodos);
+  const handleMemoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setNewTodo((prev) => ({ ...prev, memo: e.target.value }));
   };
 
   const handleCheck = (id: number, checked: boolean) => {
     updateTodo({ id, checked });
   };
 
-  const handleKeyDown = (
-    idx: number,
-    e: React.KeyboardEvent<HTMLInputElement>
-  ) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing) return;
+
     if (e.key === "Enter") {
       e.preventDefault();
-      const value = (e.target as HTMLInputElement).value.trim();
-      if (value !== "" && idx === todos.length - 1) {
-        insertTodo(
-          {
-            text: todos[idx].text,
-            memo: todos[idx].memo,
-            checked: false,
-            tags: todos[idx].tags,
+      const value = newTodo.text.trim();
+      if (value !== "") {
+        insertTodo(newTodo, {
+          onSuccess: () => {
+            setNewTodo({ text: "", memo: "", checked: false, tags: [] });
           },
-          {
-            onSuccess: (response) => {
-              console.log("추가완료", response);
-            },
-            onError: (error) => {
-              console.log("추가실패", error);
-            },
-          }
-        );
-        setTodos([...todos, { text: "", memo: "", checked: false, tags: [] }]);
+        });
       }
     }
   };
 
-  const handleTagAdd = (idx: number, tag: string) => {
+  const handleTagAdd = (tag: string) => {
     if (tag.trim() === "" || !tag.startsWith("#")) return;
 
-    const newTodos = [...todos];
-    if (!newTodos[idx].tags.includes(tag)) {
-      newTodos[idx].tags.push(tag);
-      setTodos(newTodos);
+    if (!newTodo.tags.includes(tag)) {
+      setNewTodo((prev) => ({
+        ...prev,
+        tags: [...prev.tags, tag],
+      }));
     }
   };
 
-  const handleTagRemove = (idx: number, tag: string) => {
-    const newTodos = [...todos];
-    newTodos[idx].tags = newTodos[idx].tags.filter((t) => t !== tag);
-    setTodos(newTodos);
+  const handleTagRemove = (tag: string) => {
+    setNewTodo((prev) => ({
+      ...prev,
+      tags: prev.tags.filter((t) => t !== tag),
+    }));
   };
 
   const handleDelete = (id: number) => {
@@ -108,6 +88,7 @@ export default function Home() {
         <p className="text-xl font-bold">해낸다.</p>
         <div className="flex flex-col gap-[4px] w-full">
           {todosData &&
+            todosData.length > 0 &&
             todosData.map((todo, idx) => {
               const { id, text, memo, tags, checked } = todo;
               return (
@@ -116,17 +97,19 @@ export default function Home() {
                     value={text}
                     memo={memo}
                     tags={tags}
-                    onChange={(e) => handleChange(idx, e)}
-                    onMemoChange={(e) => handleMemoChange(idx, e)}
-                    onKeyDown={(e) => handleKeyDown(idx, e)}
+                    onChange={(e) => handleChange(e)}
+                    onMemoChange={(e) => handleMemoChange(e)}
+                    onKeyDown={(e) => handleKeyDown(e)}
                     checked={checked}
                     onCheck={() => handleCheck(id, checked)}
-                    onTagAdd={(tag) => handleTagAdd(idx, tag)}
-                    onTagRemove={(tag) => handleTagRemove(idx, tag)}
-                    autoFocus={idx === todos.length - 1 && text === ""}
+                    onTagAdd={(tag) => handleTagAdd(tag)}
+                    onTagRemove={(tag) => handleTagRemove(tag)}
+                    autoFocus={
+                      idx === (todosData?.length ?? 0) - 1 && text === ""
+                    }
                   />
                   <div
-                    className="cursor-pointer self-center"
+                    className="cursor-pointer self-center w-[32px] h-[32px]"
                     onClick={() => handleDelete(id)}
                   >
                     <Image
@@ -139,6 +122,27 @@ export default function Home() {
                 </div>
               );
             })}
+          <div className="flex gap-[4px]">
+            <TodoItem
+              value={newTodo.text}
+              memo={newTodo.memo}
+              tags={newTodo.tags}
+              onChange={(e) => handleChange(e)}
+              onMemoChange={(e) => handleMemoChange(e)}
+              onKeyDown={(e) => handleKeyDown(e)}
+              checked={newTodo.checked}
+              onCheck={() => handleCheck(0, newTodo.checked)}
+              onTagAdd={(tag) => handleTagAdd(tag)}
+              onTagRemove={(tag) => handleTagRemove(tag)}
+              autoFocus={newTodo.text === ""}
+            />
+            <div
+              className="cursor-pointer self-center w-[32px] h-[32px]"
+              onClick={() => handleDelete(0)}
+            >
+              <Image src="/delete.svg" alt="delete" width={16} height={16} />
+            </div>
+          </div>
         </div>
       </main>
     </div>
