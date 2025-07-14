@@ -4,7 +4,9 @@ import React, { useState } from "react";
 import TodoItem from "./components/TodoItem";
 
 export default function Home() {
-  const [todos, setTodos] = useState([{ text: "", memo: "", checked: false }]);
+  const [todos, setTodos] = useState([
+    { text: "", memo: "", checked: false, tags: [] as string[] },
+  ]);
 
   const handleChange = (
     idx: number,
@@ -39,9 +41,25 @@ export default function Home() {
       e.preventDefault();
       const value = (e.target as HTMLInputElement).value.trim();
       if (value !== "" && idx === todos.length - 1) {
-        setTodos([...todos, { text: "", memo: "", checked: false }]);
+        setTodos([...todos, { text: "", memo: "", checked: false, tags: [] }]);
       }
     }
+  };
+
+  const handleTagAdd = (idx: number, tag: string) => {
+    if (tag.trim() === "" || !tag.startsWith("#")) return;
+
+    const newTodos = [...todos];
+    if (!newTodos[idx].tags.includes(tag)) {
+      newTodos[idx].tags.push(tag);
+      setTodos(newTodos);
+    }
+  };
+
+  const handleTagRemove = (idx: number, tag: string) => {
+    const newTodos = [...todos];
+    newTodos[idx].tags = newTodos[idx].tags.filter((t) => t !== tag);
+    setTodos(newTodos);
   };
 
   return (
@@ -63,11 +81,14 @@ export default function Home() {
               key={idx}
               value={todo.text}
               memo={todo.memo}
+              tags={todo.tags}
               onChange={(e) => handleChange(idx, e)}
               onMemoChange={(e) => handleMemoChange(idx, e)}
               onKeyDown={(e) => handleKeyDown(idx, e)}
               checked={todo.checked}
               onCheck={() => handleCheck(idx)}
+              onTagAdd={(tag) => handleTagAdd(idx, tag)}
+              onTagRemove={(tag) => handleTagRemove(idx, tag)}
               autoFocus={idx === todos.length - 1 && todo.text === ""}
             />
           ))}
