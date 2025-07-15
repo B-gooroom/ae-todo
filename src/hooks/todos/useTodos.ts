@@ -5,12 +5,20 @@ import {
   TodoProps,
   updateTodo,
   deleteTodo,
+  getYesterdayData,
 } from "@/services/todo/todo-services";
 
 export const useGetTodos = () => {
   return useQuery({
     queryKey: ["todos"],
     queryFn: async () => await getTodayData(),
+  });
+};
+
+export const useGetTodosYesterday = () => {
+  return useQuery({
+    queryKey: ["todos-yesterday"],
+    queryFn: async () => await getYesterdayData(),
   });
 };
 

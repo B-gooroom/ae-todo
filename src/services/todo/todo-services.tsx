@@ -1,5 +1,5 @@
 import { supabase } from "@/utils/supabase/client";
-import { getTodayRange } from "@/utils/getDate";
+import { getTodayRange, getYesterdayRange } from "@/utils/getDate";
 
 export interface TodoProps {
   text: string;
@@ -16,6 +16,24 @@ export const getTodayData = async () => {
     .select("*")
     .gte("created_at", start)
     .lte("created_at", end);
+
+  if (error) {
+    console.error("Error fetching todos data:", error);
+    return [];
+  }
+
+  return data;
+};
+
+export const getYesterdayData = async () => {
+  const { start, end } = getYesterdayRange();
+
+  const { data, error } = await supabase
+    .from("todos")
+    .select("*")
+    .gte("created_at", start)
+    .lte("created_at", end)
+    .order("created_at", { ascending: false });
 
   if (error) {
     console.error("Error fetching todos data:", error);
