@@ -67,15 +67,20 @@ export default function TodoItem({
         value={memo}
         onChange={onMemoChange}
         placeholder="메모 추가..."
-        className={`transition-all duration-200
-            ${
-              value?.trim() || memo?.trim()
-                ? "opacity-100 translate-y-0 pt-1 pb-0.5"
-                : "opacity-0 -translate-y-2 h-0 py-0 pointer-events-none"
-            }
-            bg-transparent outline-none w-full px-2 flex items-center rounded text-xs text-gray-300 resize-none leading-none ml-6
-          `}
-        rows={1}
+        className={`
+          transition-all duration-200
+          ${
+            value?.trim() || memo?.trim()
+              ? "opacity-100 translate-y-0 pt-1 pb-0.5"
+              : "opacity-0 -translate-y-2 h-0 py-0 pointer-events-none"
+          }
+          bg-transparent outline-none w-[90%] px-2 flex items-center rounded
+          text-xs
+          text-gray-300 resize-none ml-6
+          sm:ml-4
+          whitespace-pre-line
+        `}
+        rows={2}
       />
       {/* 태그 리스트 및 입력란 */}
       <div
