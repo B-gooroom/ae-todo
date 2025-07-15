@@ -30,7 +30,7 @@ export default function TodoItem({
   onTagRemove,
   autoFocus,
 }: TodoItemProps) {
-  const [showMemo, setShowMemo] = useState(false);
+  // const [showMemo, setShowMemo] = useState(false);
   const [tagInput, setTagInput] = useState("");
 
   const handleTagInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
