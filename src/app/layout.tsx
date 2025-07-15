@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased flex h-screen w-full">
         <QueryProvider>
-          <div className="flex h-screen w-full gap-8">
+          <div className="flex h-screen w-full gap-4 sm:gap-8">
             <SideBar />
             {children}
           </div>
