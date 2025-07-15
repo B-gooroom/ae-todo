@@ -1,15 +1,13 @@
 "use client";
 
-import React from "react";
-import TodoItem from "../components/TodoItem";
-import { useGetTodos } from "@/hooks/todos/useTodos";
-import Image from "next/image";
+import TodoItem from "@/components/TodoItem";
 import { useTodoHandlers } from "@/hooks/handlers/useTodoHandlers";
+import { useGetTodosYesterday } from "@/hooks/todos/useTodos";
+import Image from "next/image";
 
-export default function Home() {
-  const { data: todosData } = useGetTodos();
+export default function Yesterday() {
+  const { data: todosDataYesterday } = useGetTodosYesterday();
   const {
-    newTodo,
     handleChange,
     handleMemoChange,
     handleCheck,
@@ -22,13 +20,16 @@ export default function Home() {
   return (
     <div className="flex h-screen w-full">
       <main className="flex flex-col gap-[12px] row-start-2 items-start w-full max-w-md py-14 px-4 ">
-        <p className="text-xl font-bold">해낸다.</p>
+        <p className="text-xl font-bold">해냈는가.</p>
         <div className="flex flex-col gap-[4px] w-full">
-          {todosData &&
-            todosData.length > 0 &&
-            todosData.map((todo, idx) => {
+          {todosDataYesterday &&
+            todosDataYesterday.length > 0 &&
+            todosDataYesterday.map((todo, idx) => {
               const { id, text, memo, tags, checked } = todo;
               return (
+                // <div key={idx} className="flex gap-[4px]">
+                //   <p>{text}</p>
+                // </div>
                 <div key={idx} className="flex gap-[4px]">
                   <TodoItem
                     value={text}
@@ -42,7 +43,8 @@ export default function Home() {
                     onTagAdd={(tag) => handleTagAdd(tag)}
                     onTagRemove={(tag) => handleTagRemove(tag)}
                     autoFocus={
-                      idx === (todosData?.length ?? 0) - 1 && text === ""
+                      idx === (todosDataYesterday?.length ?? 0) - 1 &&
+                      text === ""
                     }
                   />
                   <div
@@ -60,33 +62,6 @@ export default function Home() {
                 </div>
               );
             })}
-          <div className="flex gap-[4px]">
-            <TodoItem
-              value={newTodo.text}
-              memo={newTodo.memo}
-              tags={newTodo.tags}
-              onChange={(e) => handleChange(e)}
-              onMemoChange={(e) => handleMemoChange(e)}
-              onKeyDown={(e) => handleKeyDown(e)}
-              checked={newTodo.checked}
-              onCheck={() => handleCheck(0, newTodo.checked)}
-              onTagAdd={(tag) => handleTagAdd(tag)}
-              onTagRemove={(tag) => handleTagRemove(tag)}
-              autoFocus={newTodo.text === ""}
-            />
-            <div
-              className="z-10 cursor-pointer self-center w-[32px] h-[32px]"
-              onClick={() => handleDelete(0)}
-            >
-              <Image
-                src="/delete.svg"
-                alt="delete"
-                width={16}
-                height={16}
-                className="hover:scale-120 transition-all duration-200 cursor-pointer"
-              />
-            </div>
-          </div>
         </div>
       </main>
     </div>
