@@ -15,7 +15,8 @@ export const getTodayData = async () => {
     .from("todos")
     .select("*")
     .gte("created_at", start)
-    .lte("created_at", end);
+    .lte("created_at", end)
+    .order("created_at", { ascending: true });
 
   if (error) {
     console.error("Error fetching todos data:", error);
@@ -33,7 +34,7 @@ export const getYesterdayData = async () => {
     .select("*")
     .gte("created_at", start)
     .lte("created_at", end)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: true });
 
   if (error) {
     console.error("Error fetching todos data:", error);
