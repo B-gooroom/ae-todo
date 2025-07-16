@@ -12,10 +12,10 @@ const routes = [
     path: "/",
     label: "투데이",
   },
-  {
-    path: "/tomorrow",
-    label: "투모로우",
-  },
+  // {
+  //   path: "/tomorrow",
+  //   label: "투모로우",
+  // },
 ];
 
 export default function SideBar() {
