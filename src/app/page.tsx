@@ -1,22 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import TodoItem from "../components/TodoItem";
 import { useGetTodos } from "@/hooks/todos/useTodos";
 import Image from "next/image";
 import { useTodoHandlers } from "@/hooks/handlers/useTodoHandlers";
+import TodoNewItem from "@/components/TodoNewItem";
 
 export default function Home() {
   const { data: todosData } = useGetTodos();
   const {
     newTodo,
-    handleChange,
-    handleMemoChange,
     handleCheck,
-    handleKeyDown,
     handleTagAdd,
     handleTagRemove,
     handleDelete,
+    handleUpdate,
+    handleMemoChange,
+    handleChange,
+    handleKeyDown,
   } = useTodoHandlers();
 
   return (
@@ -34,13 +36,11 @@ export default function Home() {
                     value={text}
                     memo={memo}
                     tags={tags}
-                    onChange={(e) => handleChange(e)}
-                    onMemoChange={(e) => handleMemoChange(e)}
-                    onKeyDown={(e) => handleKeyDown(e)}
                     checked={checked}
                     onCheck={() => handleCheck(id, checked)}
                     onTagAdd={(tag) => handleTagAdd(tag)}
                     onTagRemove={(tag) => handleTagRemove(tag)}
+                    onUpdate={(updateFields) => handleUpdate(id, updateFields)}
                     autoFocus={
                       idx === (todosData?.length ?? 0) - 1 && text === ""
                     }
@@ -48,6 +48,7 @@ export default function Home() {
                   <div
                     className="z-10 cursor-pointer self-center w-[32px] h-[32px]"
                     onClick={() => handleDelete(id)}
+                    onMouseDown={(e) => e.preventDefault()}
                   >
                     <Image
                       src="/delete.svg"
@@ -61,17 +62,17 @@ export default function Home() {
               );
             })}
           <div className="flex gap-[4px]">
-            <TodoItem
+            <TodoNewItem
               value={newTodo.text}
               memo={newTodo.memo}
               tags={newTodo.tags}
-              onChange={(e) => handleChange(e)}
-              onMemoChange={(e) => handleMemoChange(e)}
-              onKeyDown={(e) => handleKeyDown(e)}
               checked={newTodo.checked}
               onCheck={() => handleCheck(0, newTodo.checked)}
               onTagAdd={(tag) => handleTagAdd(tag)}
               onTagRemove={(tag) => handleTagRemove(tag)}
+              onChange={(e) => handleChange(e)}
+              onMemoChange={(e) => handleMemoChange(e)}
+              onKeyDown={(e) => handleKeyDown(e)}
               autoFocus={newTodo.text === ""}
             />
             <div

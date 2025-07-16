@@ -3,11 +3,14 @@ import {
   useInsertTodos,
   useUpdateTodos,
   useDeleteTodos,
+  useUpdateCheckedTodo,
 } from "../todos/useTodos";
+import { UpdateTodoProps } from "@/services/todo/todo-services";
 
 export const useTodoHandlers = () => {
   const { mutate: insertTodo } = useInsertTodos();
   const { mutate: updateTodo } = useUpdateTodos();
+  const { mutate: updateCheckedTodo } = useUpdateCheckedTodo();
   const { mutate: deleteTodo } = useDeleteTodos();
 
   const [newTodo, setNewTodo] = useState({
@@ -26,7 +29,16 @@ export const useTodoHandlers = () => {
   };
 
   const handleCheck = (id: number, checked: boolean) => {
-    updateTodo({ id, checked });
+    updateCheckedTodo({ id, checked });
+  };
+
+  const handleUpdate = (id: number, updateFields: UpdateTodoProps) => {
+    updateTodo({
+      id,
+      updateFields: {
+        ...updateFields,
+      },
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -75,5 +87,6 @@ export const useTodoHandlers = () => {
     handleTagAdd,
     handleTagRemove,
     handleDelete,
+    handleUpdate,
   };
 };

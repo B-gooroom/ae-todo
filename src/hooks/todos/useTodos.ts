@@ -3,9 +3,11 @@ import {
   getTodayData,
   insertTodo,
   TodoProps,
-  updateTodo,
+  updateCheckedTodo,
   deleteTodo,
   getYesterdayData,
+  UpdateTodoProps,
+  updateTodo,
 } from "@/services/todo/todo-services";
 
 export const useGetTodos = () => {
@@ -33,12 +35,29 @@ export const useInsertTodos = () => {
   });
 };
 
-export const useUpdateTodos = () => {
+export const useUpdateCheckedTodo = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async ({ id, checked }: { id: number; checked: boolean }) =>
-      await updateTodo(id, checked),
+      await updateCheckedTodo(id, checked),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
+};
+
+export const useUpdateTodos = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      updateFields,
+    }: {
+      id: number;
+      updateFields: UpdateTodoProps;
+    }) => await updateTodo(id, updateFields),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },

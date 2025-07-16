@@ -8,6 +8,12 @@ export interface TodoProps {
   checked: boolean;
 }
 
+export interface UpdateTodoProps {
+  text?: string;
+  memo?: string;
+  tags?: string[];
+}
+
 export const getTodayData = async () => {
   const { start, end } = getTodayRange();
 
@@ -60,10 +66,31 @@ export const insertTodo = async (todo: TodoProps) => {
   return data;
 };
 
-export const updateTodo = async (id: number, checked: boolean) => {
+export const updateCheckedTodo = async (id: number, checked: boolean) => {
   const { data, error } = await supabase
     .from("todos")
     .update({ checked: !checked })
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error updating checked todo:", error);
+    return [];
+  }
+
+  return data;
+};
+
+export const updateTodo = async (id: number, updateFields: UpdateTodoProps) => {
+  console.log("updateTodo", id, updateFields);
+  const filteredFields = Object.fromEntries(
+    Object.entries(updateFields).filter(([_, v]) => v !== undefined)
+  );
+
+  const { data, error } = await supabase
+    .from("todos")
+    .update(filteredFields)
     .eq("id", id)
     .select()
     .single();

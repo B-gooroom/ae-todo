@@ -31,6 +31,7 @@ export default function CheckBox({
   "
         checked={checked}
         onChange={onCheck}
+        onMouseDown={(e) => e.preventDefault()}
       />
     </div>
   );

@@ -10,7 +10,9 @@ interface TodoItemProps {
   onCheck: () => void;
   onTagAdd: (tag: string) => void;
   onTagRemove: (tag: string) => void;
-  onUpdate: (updateFields: UpdateTodoProps) => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onMemoChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   autoFocus?: boolean;
 }
 
@@ -22,35 +24,12 @@ export default function TodoItem({
   onCheck,
   onTagAdd,
   onTagRemove,
-  onUpdate,
+  onKeyDown,
+  onMemoChange,
+  onChange,
   autoFocus,
 }: TodoItemProps) {
-  const [editText, setEditText] = useState(value);
-  const [editMemo, setEditMemo] = useState(memo);
   const [tagInput, setTagInput] = useState("");
-
-  // value, memo가 바뀌면 내부 상태도 동기화
-  useEffect(() => {
-    setEditText(value);
-  }, [value]);
-
-  useEffect(() => {
-    setEditMemo(memo);
-  }, [memo]);
-
-  // 텍스트 업데이트
-  const handleInputBlur = () => {
-    if (editText !== value) {
-      onUpdate({ text: editText });
-    }
-  };
-
-  // 메모 업데이트
-  const handleMemoBlur = () => {
-    if (editMemo !== memo) {
-      onUpdate({ memo: editMemo });
-    }
-  };
 
   // 태그 추가
   const handleTagInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -58,7 +37,9 @@ export default function TodoItem({
     if (e.key === "Enter" && tagInput.trim() !== "") {
       e.preventDefault();
       let tag = tagInput.trim();
-      if (!tag.startsWith("#")) tag = "#" + tag;
+      if (!tag.startsWith("#")) {
+        tag = "#" + tag;
+      }
       onTagAdd(tag);
       setTagInput("");
     }
@@ -70,19 +51,19 @@ export default function TodoItem({
         <CheckBox checked={checked} onCheck={onCheck} />
         <input
           type="text"
-          value={editText}
-          onChange={(e) => setEditText(e.target.value)}
+          value={value}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
           autoFocus={autoFocus}
           placeholder="todo"
           className={`bg-transparent outline-none w-full px-2 rounded text-sm leading-none ${
             checked ? "line-through text-gray-400" : ""
           }`}
-          onBlur={handleInputBlur}
         />
       </div>
       <textarea
-        value={editMemo}
-        onChange={(e) => setEditMemo(e.target.value)}
+        value={memo}
+        onChange={onMemoChange}
         placeholder="메모 추가..."
         className={`
           transition-all duration-200
@@ -98,7 +79,6 @@ export default function TodoItem({
           whitespace-pre-line
         `}
         rows={2}
-        onBlur={handleMemoBlur}
       />
       <div
         className={`transition-all duration-200 ${

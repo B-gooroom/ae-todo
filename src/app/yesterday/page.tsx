@@ -8,13 +8,11 @@ import Image from "next/image";
 export default function Yesterday() {
   const { data: todosDataYesterday } = useGetTodosYesterday();
   const {
-    handleChange,
-    handleMemoChange,
     handleCheck,
-    handleKeyDown,
     handleTagAdd,
     handleTagRemove,
     handleDelete,
+    handleUpdate,
   } = useTodoHandlers();
 
   return (
@@ -27,21 +25,16 @@ export default function Yesterday() {
             todosDataYesterday.map((todo, idx) => {
               const { id, text, memo, tags, checked } = todo;
               return (
-                // <div key={idx} className="flex gap-[4px]">
-                //   <p>{text}</p>
-                // </div>
                 <div key={idx} className="flex gap-[4px]">
                   <TodoItem
                     value={text}
                     memo={memo}
                     tags={tags}
-                    onChange={(e) => handleChange(e)}
-                    onMemoChange={(e) => handleMemoChange(e)}
-                    onKeyDown={(e) => handleKeyDown(e)}
                     checked={checked}
-                    onCheck={() => handleCheck(id, checked)}
+                    onCheck={() => handleCheck(id, !checked)}
                     onTagAdd={(tag) => handleTagAdd(tag)}
                     onTagRemove={(tag) => handleTagRemove(tag)}
+                    onUpdate={(updateFields) => handleUpdate(id, updateFields)}
                     autoFocus={
                       idx === (todosDataYesterday?.length ?? 0) - 1 &&
                       text === ""
@@ -50,6 +43,7 @@ export default function Yesterday() {
                   <div
                     className="z-10 cursor-pointer self-center w-[32px] h-[32px]"
                     onClick={() => handleDelete(id)}
+                    onMouseDown={(e) => e.preventDefault()}
                   >
                     <Image
                       src="/delete.svg"
