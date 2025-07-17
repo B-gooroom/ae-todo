@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CheckBox from "./CheckBox";
-import { UpdateTodoProps } from "@/services/todo/todo-services";
 
 interface TodoItemProps {
   value: string;

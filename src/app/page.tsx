@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import TodoItem from "../components/TodoItem";
 import { useGetTodos } from "@/hooks/todos/useTodos";
 import Image from "next/image";
