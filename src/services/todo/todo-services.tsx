@@ -84,7 +84,7 @@ export const updateCheckedTodo = async (id: number, checked: boolean) => {
 
 export const updateTodo = async (id: number, updateFields: UpdateTodoProps) => {
   const filteredFields = Object.fromEntries(
-    Object.entries(updateFields).filter(([_, v]) => v !== undefined && v !== "")
+    Object.entries(updateFields).filter(([v]) => v !== undefined && v !== "")
   );
 
   const { data, error } = await supabase
