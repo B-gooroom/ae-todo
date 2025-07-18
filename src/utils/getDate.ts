@@ -15,3 +15,10 @@ export const getYesterdayRange = () => {
     end: `${yesterday}T23:59:59.999Z+09:00`,
   };
 };
+
+export const getDateRange = (date: string) => {
+  return {
+    start: `${date}T00:00:00.000Z+09:00`,
+    end: `${date}T23:59:59.999Z+09:00`,
+  };
+};
