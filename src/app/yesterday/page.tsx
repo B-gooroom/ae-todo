@@ -18,7 +18,7 @@ export default function Yesterday() {
   return (
     <div className="flex h-screen w-full">
       <main className="flex flex-col gap-[12px] row-start-2 items-start w-full max-w-md py-14 px-4 ">
-        <p className="text-xl font-bold">해냈는가.</p>
+        <p className="text-xl font-bold">어제의 나, 해냈는가.</p>
         <div className="flex flex-col gap-[4px] w-full">
           {todosDataYesterday &&
             todosDataYesterday.length > 0 &&

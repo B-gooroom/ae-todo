@@ -10,6 +10,7 @@ import {
   updateTodo,
 } from "@/services/todo/todo-services";
 
+// 오늘의 할 일
 export const useGetTodos = () => {
   return useQuery({
     queryKey: ["todos"],
@@ -17,6 +18,7 @@ export const useGetTodos = () => {
   });
 };
 
+// 어제의 한 일
 export const useGetTodosYesterday = () => {
   return useQuery({
     queryKey: ["todos-yesterday"],
