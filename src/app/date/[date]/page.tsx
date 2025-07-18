@@ -21,6 +21,7 @@ export default function DatePage() {
   } = useTodoHandlers();
 
   // console.log("date in DatePage", todosDataByDate);
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="flex h-screen w-full">
