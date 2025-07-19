@@ -1,8 +1,8 @@
 export const getTodayRange = () => {
   const today = new Date().toISOString().split("T")[0];
   return {
-    start: `${today}T00:00:00.000Z+09:00`,
-    end: `${today}T23:59:59.999Z+09:00`,
+    start: `${today}T00:00:00.000Z`,
+    end: `${today}T23:59:59.999Z`,
   };
 };
 
@@ -11,14 +11,14 @@ export const getYesterdayRange = () => {
     .toISOString()
     .split("T")[0];
   return {
-    start: `${yesterday}T00:00:00.000Z+09:00`,
-    end: `${yesterday}T23:59:59.999Z+09:00`,
+    start: `${yesterday}T00:00:00.000Z`,
+    end: `${yesterday}T23:59:59.999Z`,
   };
 };
 
 export const getDateRange = (date: string) => {
   return {
-    start: `${date}T00:00:00.000Z+09:00`,
-    end: `${date}T23:59:59.999Z+09:00`,
+    start: `${date}T00:00:00.000Z`,
+    end: `${date}T23:59:59.999Z`,
   };
 };
