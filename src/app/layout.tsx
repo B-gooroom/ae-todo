@@ -15,9 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased flex h-screen w-full">
+      <body className="antialiased flex w-full">
         <QueryProvider>
-          <div className="flex h-screen w-full gap-4 sm:gap-8">
+          <div className="flex w-full gap-4 sm:gap-8">
             <SideBar />
             {children}
           </div>
