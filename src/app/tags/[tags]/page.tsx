@@ -19,7 +19,7 @@ export default function TagsPage() {
   } = useTodoHandlers();
 
   return (
-    <div className="flex h-screen w-full">
+    <div className="flex w-full">
       <main className="flex flex-col gap-[12px] row-start-2 items-start w-full max-w-md py-14 px-4 ">
         <p className="text-xl font-bold">#{tags}</p>
         <div className="flex flex-col gap-[4px] w-full">
