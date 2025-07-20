@@ -1,6 +1,6 @@
 "use client";
 
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+// import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -45,7 +45,7 @@ const initialConfig = {
 };
 
 function Editor() {
-  const [editor] = useLexicalComposerContext();
+  // const [editor] = useLexicalComposerContext();
 
   return (
     <div className="w-full">
@@ -74,7 +74,7 @@ export default function LexicalEditor() {
           onChange={(editorState) => {
             editorState.read(() => {
               const root = $getRoot();
-              const selection = $getSelection();
+              // const selection = $getSelection();
               console.log("root", root.getTextContent());
             });
           }}
