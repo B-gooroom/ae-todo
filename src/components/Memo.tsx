@@ -74,8 +74,9 @@ export default function LexicalEditor() {
           onChange={(editorState) => {
             editorState.read(() => {
               const root = $getRoot();
-              // const selection = $getSelection();
+              const selection = $getSelection();
               console.log("root", root.getTextContent());
+              console.log("selection", selection);
             });
           }}
         />
