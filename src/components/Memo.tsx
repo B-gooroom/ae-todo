@@ -38,7 +38,7 @@ const initialConfig = {
       h5: "text-sm font-bold",
     },
   },
-  onError(error: any) {
+  onError(error: Error) {
     throw error;
   },
   nodes: [HeadingNode, ListNode, ListItemNode, QuoteNode, CodeNode, LinkNode],
