@@ -45,6 +45,7 @@ export const useUpdateCheckedTodo = () => {
       await updateCheckedTodo(id, checked),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+      queryClient.invalidateQueries({ queryKey: ["todos-yesterday"] });
     },
   });
 };
@@ -62,6 +63,7 @@ export const useUpdateTodos = () => {
     }) => await updateTodo(id, updateFields),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+      queryClient.invalidateQueries({ queryKey: ["todos-yesterday"] });
     },
   });
 };
@@ -73,6 +75,7 @@ export const useDeleteTodos = () => {
     mutationFn: async (id: number) => await deleteTodo(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+      queryClient.invalidateQueries({ queryKey: ["todos-yesterday"] });
     },
   });
 };

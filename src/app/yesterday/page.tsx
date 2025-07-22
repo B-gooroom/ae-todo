@@ -31,7 +31,7 @@ export default function Yesterday() {
                     memo={memo}
                     tags={tags}
                     checked={checked}
-                    onCheck={() => handleCheck(id, !checked)}
+                    onCheck={() => handleCheck(id, checked)}
                     onTagAdd={(tag) => handleTagAdd(tag)}
                     onTagRemove={(tag) => handleTagRemove(tag)}
                     onUpdate={(updateFields) => handleUpdate(id, updateFields)}
