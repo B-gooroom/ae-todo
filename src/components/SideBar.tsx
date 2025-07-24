@@ -38,7 +38,7 @@ export default function SideBar() {
   const yesterday = subDays(today, 1);
 
   // 최근 7일(어제 이전) 날짜 리스트 만들기
-  const recentDates = Array.from({ length: 3 }, (_, i) => {
+  const recentDates = Array.from({ length: 5 }, (_, i) => {
     const date = subDays(yesterday, i + 1);
     return {
       url: format(date, "yyyy-MM-dd"),
