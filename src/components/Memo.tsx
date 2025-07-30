@@ -49,7 +49,6 @@ const initialConfig = {
 function Editor() {
   const [editor] = useLexicalComposerContext();
   const { data: todayMemo, isLoading } = useGetTodayMemo();
-  const { mutate: upsertMemo } = useUpsertMemo();
   const isInitialized = useRef(false);
 
   // 초기 데이터 로드
