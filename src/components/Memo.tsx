@@ -5,7 +5,12 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-import { $getRoot, $createParagraphNode, $createTextNode } from "lexical";
+import {
+  $getRoot,
+  $createParagraphNode,
+  $createTextNode,
+  EditorState,
+} from "lexical";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListNode, ListItemNode } from "@lexical/list";
@@ -90,7 +95,7 @@ export default function LexicalEditor() {
   const { mutate: upsertMemo } = useUpsertMemo();
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleChange = (editorState: any) => {
+  const handleChange = (editorState: EditorState) => {
     editorState.read(() => {
       const root = $getRoot();
       const content = root.getTextContent();
