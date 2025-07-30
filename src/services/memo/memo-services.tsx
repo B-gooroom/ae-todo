@@ -23,8 +23,6 @@ export const getTodayMemo = async () => {
 
 // 메모를 업데이트하거나 생성하는 함수
 export const upsertMemo = async (content: string) => {
-  const { start, end } = getTodayRange();
-
   // 먼저 오늘 메모가 있는지 확인
   const existingMemo = await getTodayMemo();
 
