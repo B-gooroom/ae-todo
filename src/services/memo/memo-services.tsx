@@ -10,15 +10,14 @@ export const getTodayMemo = async () => {
     .select("*")
     .gte("created_at", start)
     .lte("created_at", end)
-    .single();
+    .maybeSingle(); // single() 대신 maybeSingle() 사용
 
-  if (error && error.code !== "PGRST116") {
-    // PGRST116는 데이터가 없을 때의 에러
+  if (error) {
     console.error("Error fetching today's memo:", error);
     return null;
   }
 
-  return data;
+  return data; // 데이터가 없으면 null, 있으면 데이터 반환
 };
 
 // 메모를 업데이트하거나 생성하는 함수
