@@ -20,7 +20,6 @@ export default function DatePage() {
     handleUpdate,
   } = useTodoHandlers();
 
-  // console.log("date in DatePage", todosDataByDate);
   if (isLoading) return <div>Loading...</div>;
 
   return (
