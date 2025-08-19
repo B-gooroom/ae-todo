@@ -8,8 +8,8 @@ export const getTodayRange = () => {
   const today = kstDate.toISOString().split("T")[0];
 
   return {
-    start: `${today}T00:00:00+09:00`, // KST 시간으로 변경
-    end: `${today}T23:59:59.999+09:00`, // KST 시간으로 변경
+    start: `${today}T00:00:00`, // KST 시간으로 변경
+    end: `${today}T23:59:59.999`, // KST 시간으로 변경
   };
 };
 
@@ -24,8 +24,8 @@ export const getYesterdayRange = () => {
     .split("T")[0];
 
   return {
-    start: `${yesterday}T00:00:00+09:00`, // KST 시간으로 변경
-    end: `${yesterday}T23:59:59.999+09:00`, // KST 시간으로 변경
+    start: `${yesterday}T00:00:00`, // KST 시간으로 변경
+    end: `${yesterday}T23:59:59.999`, // KST 시간으로 변경
   };
 };
 

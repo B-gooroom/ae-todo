@@ -29,6 +29,7 @@ export const getTodayData = async () => {
     return [];
   }
 
+  console.log("data", data);
   return data;
 };
 
