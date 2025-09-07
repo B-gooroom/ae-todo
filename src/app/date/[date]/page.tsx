@@ -29,7 +29,7 @@ export default function DatePage() {
 
   return (
     <div className="flex w-full">
-      <main className="flex flex-col gap-[12px] row-start-2 items-start w-full max-w-md py-14 px-4 ">
+      <main className="flex flex-col gap-[12px] row-start-2 items-start w-[65%] py-14 px-4 ">
         <p className="text-xl font-bold">과거의 나, 해냈는가.</p>
         <div className="flex flex-col gap-[4px] w-full">
           {todosDataByDate &&

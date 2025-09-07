@@ -106,11 +106,7 @@ function Editor({
       {isLoading && <div className="text-gray-400 text-sm p-2">로딩 중...</div>}
       <RichTextPlugin
         contentEditable={
-          <ContentEditable
-            className={`min-h-screen p-2 outline-none text-sm ${
-              readOnly ? "text-gray-500 cursor-default" : "text-gray-300"
-            }`}
-          />
+          <ContentEditable className="min-h-screen p-2 outline-none text-sm text-gray-300" />
         }
         ErrorBoundary={LexicalErrorBoundary}
       />
@@ -148,7 +144,7 @@ export default function LexicalEditor({
   };
 
   return (
-    <div className="w-[60%] h-full bg-[#2B2D32] border-r-2 border-gray-500 py-6 px-2 sm:px-4">
+    <div className="w-[35%] h-full bg-[#2B2D32] border-r-2 border-gray-500 py-6 px-2 sm:px-4">
       <LexicalComposer initialConfig={getInitialConfig(readOnly)}>
         <Editor memoData={memoData} isLoading={isLoading} readOnly={readOnly} />
         {!readOnly && (

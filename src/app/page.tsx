@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <div className="flex w-full">
-      <main className="flex flex-col gap-[12px] row-start-2 items-start w-full max-w-md py-14 px-4 ">
+      <main className="flex flex-col gap-[12px] row-start-2 items-start w-[65%] py-14 px-4 ">
         <p className="text-xl font-bold">해낸다.</p>
         <div className="flex flex-col gap-[4px] w-full">
           {todosData &&
