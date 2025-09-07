@@ -2,11 +2,16 @@
 
 import TodoItem from "@/components/TodoItem";
 import { useTodoHandlers } from "@/hooks/handlers/useTodoHandlers";
+import { useGetYesterdayMemo } from "@/hooks/memos/useMemos";
 import { useGetTodosYesterday } from "@/hooks/todos/useTodos";
 import Image from "next/image";
+import Memo from "@/components/Memo";
 
 export default function Yesterday() {
   const { data: todosDataYesterday } = useGetTodosYesterday();
+  const { data: yesterdayMemo, isLoading: isLoadingMemo } =
+    useGetYesterdayMemo();
+
   const {
     handleCheck,
     handleTagAdd,
@@ -58,6 +63,11 @@ export default function Yesterday() {
             })}
         </div>
       </main>
+      <Memo
+        memoData={yesterdayMemo}
+        isLoading={isLoadingMemo}
+        readOnly={true}
+      />
     </div>
   );
 }

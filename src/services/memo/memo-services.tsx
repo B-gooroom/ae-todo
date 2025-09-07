@@ -1,5 +1,5 @@
 import { supabase } from "@/utils/supabase/client";
-import { getTodayRange } from "@/utils/getDate";
+import { getTodayRange, getYesterdayRange } from "@/utils/getDate";
 
 // 오늘 날짜의 메모를 가져오는 함수
 export const getTodayMemo = async () => {
@@ -61,4 +61,22 @@ export const upsertMemo = async (content: string) => {
 
     return data;
   }
+};
+
+export const getYesterdayMemo = async () => {
+  const { start, end } = getYesterdayRange();
+
+  const { data, error } = await supabase
+    .from("memos")
+    .select("*")
+    .gte("created_at", start)
+    .lte("created_at", end)
+    .maybeSingle(); // single() 대신 maybeSingle() 사용
+
+  if (error) {
+    console.error("Error fetching yesterday's memo:", error);
+    return null;
+  }
+
+  return data; // 데이터가 없으면 null, 있으면 데이터 반환
 };

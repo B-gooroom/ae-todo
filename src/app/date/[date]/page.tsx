@@ -5,10 +5,15 @@ import { useTodoHandlers } from "@/hooks/handlers/useTodoHandlers";
 import { useGetTodosByDate } from "@/hooks/todos/useTodoDate";
 import { useParams } from "next/navigation";
 import Image from "next/image";
+import Memo from "@/components/Memo";
+import { useGetMemoByDate } from "@/hooks/memos/useMemoDate";
 
 export default function DatePage() {
   const { date } = useParams();
   const { data: todosDataByDate, isLoading } = useGetTodosByDate(
+    date as string
+  );
+  const { data: memosDataByDate, isLoading: isLoadingMemos } = useGetMemoByDate(
     date as string
   );
 
@@ -64,6 +69,7 @@ export default function DatePage() {
             })}
         </div>
       </main>
+      <Memo memoData={memosDataByDate} isLoading={isLoadingMemos} />
     </div>
   );
 }

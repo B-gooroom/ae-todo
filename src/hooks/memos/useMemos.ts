@@ -1,4 +1,8 @@
-import { getTodayMemo, upsertMemo } from "@/services/memo/memo-services";
+import {
+  getTodayMemo,
+  getYesterdayMemo,
+  upsertMemo,
+} from "@/services/memo/memo-services";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // 오늘의 메모
@@ -18,5 +22,12 @@ export const useUpsertMemo = () => {
       // 메모 업데이트 후 캐시 무효화
       queryClient.invalidateQueries({ queryKey: ["todayMemo"] });
     },
+  });
+};
+
+export const useGetYesterdayMemo = () => {
+  return useQuery({
+    queryKey: ["memos-yesterday"],
+    queryFn: async () => await getYesterdayMemo(),
   });
 };

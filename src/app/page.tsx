@@ -6,9 +6,12 @@ import { useGetTodos } from "@/hooks/todos/useTodos";
 import Image from "next/image";
 import { useTodoHandlers } from "@/hooks/handlers/useTodoHandlers";
 import TodoNewItem from "@/components/TodoNewItem";
+import Memo from "@/components/Memo";
+import { useGetTodayMemo } from "@/hooks/memos/useMemos";
 
 export default function Home() {
   const { data: todosData } = useGetTodos();
+  const { data: todayMemo, isLoading: isLoadingMemo } = useGetTodayMemo();
   const {
     newTodo,
     handleCheck,
@@ -90,6 +93,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+      <Memo memoData={todayMemo} isLoading={isLoadingMemo} />
     </div>
   );
 }
