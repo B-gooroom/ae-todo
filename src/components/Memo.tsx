@@ -106,7 +106,11 @@ function Editor({
       {isLoading && <div className="text-gray-400 text-sm p-2">로딩 중...</div>}
       <RichTextPlugin
         contentEditable={
-          <ContentEditable className="min-h-screen p-2 outline-none text-sm text-gray-300" />
+          <ContentEditable
+            className={`min-h-screen p-2 outline-none text-sm ${
+              readOnly ? "text-gray-300 cursor-default" : "text-gray-300"
+            }`}
+          />
         }
         ErrorBoundary={LexicalErrorBoundary}
       />
