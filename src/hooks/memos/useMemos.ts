@@ -4,10 +4,11 @@ import {
   upsertMemo,
 } from "@/services/memo/memo-services";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { MemoData } from "@/components/Memo";
 
 // 오늘의 메모
 export const useGetTodayMemo = () => {
-  return useQuery({
+  return useQuery<MemoData | null>({
     queryKey: ["todayMemo"],
     queryFn: async () => await getTodayMemo(),
   });
@@ -16,7 +17,7 @@ export const useGetTodayMemo = () => {
 export const useUpsertMemo = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
+  return useMutation<MemoData, Error, string>({
     mutationFn: async (content: string) => await upsertMemo(content),
     onSuccess: () => {
       // 메모 업데이트 후 캐시 무효화
@@ -26,7 +27,7 @@ export const useUpsertMemo = () => {
 };
 
 export const useGetYesterdayMemo = () => {
-  return useQuery({
+  return useQuery<MemoData | null>({
     queryKey: ["memos-yesterday"],
     queryFn: async () => await getYesterdayMemo(),
   });

@@ -19,9 +19,17 @@ import { TRANSFORMERS } from "@lexical/markdown";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { CodeNode } from "@lexical/code";
 import { LinkNode } from "@lexical/link";
-import { useGetTodayMemo, useUpsertMemo } from "@/hooks/memos/useMemos";
+import { useUpsertMemo } from "@/hooks/memos/useMemos";
 import { useEffect, useRef } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+
+// Memo 데이터 타입 정의
+export interface MemoData {
+  id: string;
+  text: string;
+  created_at: string;
+  updated_at?: string;
+}
 
 const getInitialConfig = (readOnly: boolean = false) => ({
   namespace: "MyEditor",
@@ -57,7 +65,7 @@ function Editor({
   isLoading,
   readOnly = false,
 }: {
-  memoData: any;
+  memoData: MemoData | null;
   isLoading: boolean;
   readOnly?: boolean;
 }) {
@@ -115,7 +123,7 @@ export default function LexicalEditor({
   isLoading,
   readOnly = false,
 }: {
-  memoData: any;
+  memoData: MemoData | null;
   isLoading: boolean;
   readOnly?: boolean;
 }) {

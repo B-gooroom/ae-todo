@@ -1,7 +1,10 @@
 import { supabase } from "@/utils/supabase/client";
 import { getDateRange } from "@/utils/getDate";
+import { MemoData } from "@/components/Memo";
 
-export const getMemoByDate = async (date: string) => {
+export const getMemoByDate = async (
+  date: string
+): Promise<MemoData[] | null> => {
   const { start, end } = getDateRange(date);
 
   const { data, error } = await supabase

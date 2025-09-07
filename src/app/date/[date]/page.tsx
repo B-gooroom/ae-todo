@@ -69,7 +69,10 @@ export default function DatePage() {
             })}
         </div>
       </main>
-      <Memo memoData={memosDataByDate} isLoading={isLoadingMemos} />
+      <Memo
+        memoData={memosDataByDate?.[0] ?? null}
+        isLoading={isLoadingMemos}
+      />
     </div>
   );
 }

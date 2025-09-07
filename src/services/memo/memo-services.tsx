@@ -1,8 +1,9 @@
 import { supabase } from "@/utils/supabase/client";
 import { getTodayRange, getYesterdayRange } from "@/utils/getDate";
+import { MemoData } from "@/components/Memo";
 
 // 오늘 날짜의 메모를 가져오는 함수
-export const getTodayMemo = async () => {
+export const getTodayMemo = async (): Promise<MemoData | null> => {
   const { start, end } = getTodayRange();
 
   const { data, error } = await supabase
@@ -21,7 +22,7 @@ export const getTodayMemo = async () => {
 };
 
 // 메모를 업데이트하거나 생성하는 함수
-export const upsertMemo = async (content: string) => {
+export const upsertMemo = async (content: string): Promise<MemoData> => {
   // 먼저 오늘 메모가 있는지 확인
   const existingMemo = await getTodayMemo();
 
@@ -63,7 +64,7 @@ export const upsertMemo = async (content: string) => {
   }
 };
 
-export const getYesterdayMemo = async () => {
+export const getYesterdayMemo = async (): Promise<MemoData | null> => {
   const { start, end } = getYesterdayRange();
 
   const { data, error } = await supabase

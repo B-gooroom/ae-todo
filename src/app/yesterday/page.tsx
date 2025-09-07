@@ -64,7 +64,7 @@ export default function Yesterday() {
         </div>
       </main>
       <Memo
-        memoData={yesterdayMemo}
+        memoData={yesterdayMemo ?? null}
         isLoading={isLoadingMemo}
         readOnly={true}
       />

@@ -93,7 +93,7 @@ export default function Home() {
           </div>
         </div>
       </main>
-      <Memo memoData={todayMemo} isLoading={isLoadingMemo} />
+      <Memo memoData={todayMemo ?? null} isLoading={isLoadingMemo} />
     </div>
   );
 }
