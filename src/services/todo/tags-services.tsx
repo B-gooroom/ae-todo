@@ -5,7 +5,7 @@ export const getTags = async (tags: string[]) => {
     .from("todos")
     .select("*")
     .contains("tags", [`#${tags}`])
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: false });
 
   if (error) {
     console.error("Error fetching tags:", error);
