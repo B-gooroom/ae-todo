@@ -46,6 +46,7 @@ export const useUpdateCheckedTodo = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
       queryClient.invalidateQueries({ queryKey: ["todos-yesterday"] });
+      queryClient.invalidateQueries({ queryKey: ["todos-date"] });
     },
   });
 };
@@ -64,6 +65,7 @@ export const useUpdateTodos = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
       queryClient.invalidateQueries({ queryKey: ["todos-yesterday"] });
+      queryClient.invalidateQueries({ queryKey: ["todos-date"] });
     },
   });
 };
@@ -76,6 +78,7 @@ export const useDeleteTodos = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
       queryClient.invalidateQueries({ queryKey: ["todos-yesterday"] });
+      queryClient.invalidateQueries({ queryKey: ["todos-date"] });
     },
   });
 };
