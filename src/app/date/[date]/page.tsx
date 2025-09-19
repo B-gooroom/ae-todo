@@ -26,6 +26,7 @@ export default function DatePage() {
   } = useTodoHandlers();
 
   if (isLoading) return <div>Loading...</div>;
+  if (isLoadingMemos) return <div>Loading...</div>;
 
   return (
     <div className="flex w-full">
