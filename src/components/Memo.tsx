@@ -5,12 +5,7 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-import {
-  $getRoot,
-  $createParagraphNode,
-  $createTextNode,
-  EditorState,
-} from "lexical";
+import { $getRoot, $createParagraphNode, $createTextNode } from "lexical";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListNode, ListItemNode } from "@lexical/list";
