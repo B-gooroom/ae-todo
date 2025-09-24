@@ -159,7 +159,7 @@ function ChangeHandler({
 }) {
   const [editor] = useLexicalComposerContext();
 
-  const handleChange = (editorState: EditorState) => {
+  const handleChange = () => {
     // 디바운스 처리 (1초 후에 저장)
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current);
