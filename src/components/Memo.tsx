@@ -73,28 +73,32 @@ function Editor({
 
   // 마지막으로 로드된 데이터를 추적
   const lastLoadedDataRef = useRef<string | null>(null);
+  const isInitializingRef = useRef<boolean>(false);
+  const hasInitializedRef = useRef<boolean>(false);
 
-  // 초기 데이터 로드 - memoData가 실제로 변경될 때만 초기화
+  // 초기 데이터 로드 - 한 번만 초기화
   useEffect(() => {
-    if (!isLoading && memoData !== undefined) {
+    if (!isLoading && memoData !== undefined && !hasInitializedRef.current) {
       const currentText = memoData?.text || "";
 
-      // 이전에 로드된 데이터와 다를 때만 업데이트
-      if (lastLoadedDataRef.current !== currentText) {
-        editor.update(() => {
-          const root = $getRoot();
-          root.clear();
+      isInitializingRef.current = true;
+      hasInitializedRef.current = true;
 
-          if (currentText) {
-            // 간단한 텍스트 노드로 설정
-            const paragraph = $createParagraphNode();
-            const textNode = $createTextNode(currentText);
-            paragraph.append(textNode);
-            root.append(paragraph);
-          }
-        });
-        lastLoadedDataRef.current = currentText;
-      }
+      editor.update(() => {
+        const root = $getRoot();
+        root.clear();
+
+        if (currentText) {
+          // 일반 텍스트로 로드 (마크다운 파싱은 단축키로만 지원)
+          const paragraph = $createParagraphNode();
+          const textNode = $createTextNode(currentText);
+          paragraph.append(textNode);
+          root.append(paragraph);
+        }
+      });
+
+      isInitializingRef.current = false;
+      lastLoadedDataRef.current = currentText;
     }
   }, [memoData, editor, isLoading]);
 
@@ -110,6 +114,7 @@ function Editor({
             className={`min-h-screen p-2 outline-none text-sm ${
               readOnly ? "text-gray-300 cursor-default" : "text-gray-300"
             }`}
+            // placeholder="메모를 작성하세요... (마크다운 지원: # 제목, **굵게**, *기울임*, - 목록)"
           />
         }
         ErrorBoundary={LexicalErrorBoundary}
@@ -130,36 +135,55 @@ export default function LexicalEditor({
   const { mutate: upsertMemo } = useUpsertMemo();
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleChange = (editorState: EditorState) => {
-    editorState.read(() => {
-      const root = $getRoot();
-      const content = root.getTextContent();
-
-      // 디바운스 처리 (500ms 후에 저장)
-      if (debounceTimeoutRef.current) {
-        clearTimeout(debounceTimeoutRef.current);
-      }
-
-      debounceTimeoutRef.current = setTimeout(() => {
-        // 빈 내용이어도 저장 (trim() 제거)
-        upsertMemo(content);
-      }, 500);
-    });
-  };
-
   return (
     <div className="w-[35%] h-full bg-[#2B2D32] border-r-2 border-gray-500 py-6 px-2 sm:px-4">
       <LexicalComposer initialConfig={getInitialConfig(readOnly)}>
         <Editor memoData={memoData} isLoading={isLoading} readOnly={readOnly} />
         {!readOnly && (
-          <>
-            <HistoryPlugin />
-            <ListPlugin />
-            <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-            <OnChangePlugin onChange={handleChange} />
-          </>
+          <ChangeHandler
+            upsertMemo={upsertMemo}
+            debounceTimeoutRef={debounceTimeoutRef}
+          />
         )}
       </LexicalComposer>
     </div>
+  );
+}
+
+function ChangeHandler({
+  upsertMemo,
+  debounceTimeoutRef,
+}: {
+  upsertMemo: (content: string) => void;
+  debounceTimeoutRef: React.MutableRefObject<NodeJS.Timeout | null>;
+}) {
+  const [editor] = useLexicalComposerContext();
+
+  const handleChange = (editorState: EditorState) => {
+    // 디바운스 처리 (1초 후에 저장)
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+
+    debounceTimeoutRef.current = setTimeout(() => {
+      // 에디터 상태를 읽어서 저장
+      editor.read(() => {
+        const root = $getRoot();
+        const content = root.getTextContent();
+        // 빈 내용이거나 의미있는 변경이 있을 때만 저장
+        if (content.trim() !== "") {
+          upsertMemo(content);
+        }
+      });
+    }, 1000);
+  };
+
+  return (
+    <>
+      <HistoryPlugin />
+      <ListPlugin />
+      <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+      <OnChangePlugin onChange={handleChange} />
+    </>
   );
 }
